@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSpring, withTiming } from 'react-native-reanimated';
+import Animated, { SharedValue, useAnimatedStyle, useSharedValue, withRepeat, withSpring, withTiming } from 'react-native-reanimated';
 
 const size = 100;
 
 
 
-const handleRotation = (progress) => {
+const handleRotation = (progress: SharedValue<number>) => {
   "worklet"
-  return `${progress.value * 2 * Math.PI}rad` 
+  return `${progress.value * 2 * Math.PI}rad`
 }
 
 export default function RootLayout() {
@@ -17,17 +17,12 @@ export default function RootLayout() {
   const scale = useSharedValue(1)
 
    
-
-
   const reanimatedStyle = useAnimatedStyle(() => {
     return {
       opacity: progress.value,
       transform: [{ scale: scale.value }, { rotate: handleRotation(progress) }],
     };
   });
-
-  
-
 
   useEffect(() => {
     progress.value = withRepeat(withTiming(1, {duration: 1000}), -1, true);
