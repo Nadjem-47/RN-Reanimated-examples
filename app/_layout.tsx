@@ -1,24 +1,47 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useEffect } from 'react';
+import { View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSpring, withTiming } from 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+const size = 100;
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+
+
+const handleRotation = (progress) => {
+  "worklet"
+  return `${progress.value * 2 * Math.PI}rad` 
+}
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+
+  const progress = useSharedValue(1);
+  const scale = useSharedValue(1)
+
+   
+
+
+  const reanimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: progress.value,
+      transform: [{ scale: scale.value }, { rotate: handleRotation(progress) }],
+    };
+  });
+
+  
+
+
+  useEffect(() => {
+    progress.value = withRepeat(withTiming(1, {duration: 1000}), -1, true);
+    scale.value = withRepeat(withSpring(3), -1, true)
+
+  }, [])
+  
+
+console.log(reanimatedStyle);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Animated.View style={[{width: size, height: size, backgroundColor: 'red'}, reanimatedStyle]} />
+    </View>
   );
 }
+ 
