@@ -1,10 +1,10 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler"
-import SliderInterpolate from "./Slider-Interpolate"
+import ThemeAnimation from "./theme-animation"
 
 export default function RootLayout() {
   return (
     <GestureHandlerRootView>
-      <SliderInterpolate />
+      <ThemeAnimation />
     </GestureHandlerRootView>
   )
 }
