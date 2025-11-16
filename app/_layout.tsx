@@ -1,10 +1,10 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler"
-import ThemeAnimation from "./theme-animation"
+import PinchGestureHandlerExample from "./PinchGestureHandlerExample"
 
 export default function RootLayout() {
   return (
     <GestureHandlerRootView>
-      <ThemeAnimation />
+      <PinchGestureHandlerExample />
     </GestureHandlerRootView>
   )
 }
